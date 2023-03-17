@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        if (root == null)
+            return new ArrayList();
+        Queue<TreeNode> queue = new LinkedList();
+        queue.offer(root);
+        List<Integer> res = new ArrayList();
+        
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            
+            while (size -- > 0){
+                TreeNode cur = queue.poll();
+                if (size == 0)
+                    res.add(cur.val);
+                
+                if (cur.left != null)
+                    queue.offer(cur.left);
+                if (cur.right != null)
+                    queue.offer(cur.right);
+            }
+        }
+        
+        return res;
+    }
+}
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        rightView(root, res, 0);
+        return res;
+    }
+    
+    public void rightView(TreeNode curr, List<Integer> res, int currDepth){
+        if(curr == null){
+        return;
+        }
+        if(currDepth == res.size()){
+            res.add(curr.val);
+        }
+        
+        rightView(curr.right, res, currDepth +1);
+        rightView(curr.left, res, currDepth +1);//change order if want a left side view; only curr.right is null, curr.left will be added.
+    }
+}
